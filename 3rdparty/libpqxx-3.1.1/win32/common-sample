@@ -1,0 +1,53 @@
+# Common options for Visual C++ makefiles to build libpqxx and its regression
+# test.
+# THE ORIGINAL OF THIS FILE IS CALLED common-sample; DON'T EDIT THE ORIGINAL or
+# you may lose your changes when you upgrade your libpqxx sources.
+# Instead, copy "common-sample" to "common" and edit just the file "common".
+
+# Caution: on Windows, some environments, such as the "make" that comes with
+# Visual C++, expect you to use backslashes as path separators (for example,
+# "C:\src\libpqxx") whereas others like MinGW want you to use more conventional
+# slashes (as in "C:/src/libpqxx").
+
+# Standard library namespace.
+# There are only two reasons why you might want to change this:
+#
+# 1. Your compiler doesn't define the standard library in the "std" namespace
+# but in the global namespace, in which case PGSTD should be the empty string.
+# However, a compiler with that problem is not likely to be good enough to
+# compile libpqxx.
+#
+# 2. You are using a third-party standard library implementation such as
+# STLport, which lives in another namespace to avoid clashes with the
+# implementation that came with the compiler.
+#
+# In the latter case, PGSTD must be set to the namespace used by your preferred
+# implementation.  In all other cases, just leave this set to "std".
+STD="std"
+
+# If you are using a 3rd-party STL like STLport, remember to check your path
+# and be sure the STLport is included before the MSVC includes. VCVARS32.BAT
+# doesn't know anything about the directories as defined in the IDE. I use
+#
+# set INCLUDE=\Utility\Code\STLport-4.5\stlport;%INCLUDE%
+#
+# ...and set STD to "_STL".
+
+# Depending on your STL library min/max need to be defined.  Using STLport
+# there is no need for libpqxx to redefine these for me.
+
+# The next line gives us the src directory to add additional include directories
+# We need certain header files from the Postgres code.  Specifically 
+#
+#	postgres_ext.h (in src/include in the PostgreSQL source tree)
+#	libpq-fe.h (in src/interfaces/libpq in the PostgreSQL source tree)
+#
+# This directory is also used to find the compiled libpq and libpqd.
+PGSQLSRC="D:\Src\postgresql-8.1.3\src"
+
+# Paths where the libpq library binary or binaries can be found.
+# We should use the libpq libraries that correspond to the source tree whose
+# headers we are including.  This ensures that we find all in the same place:
+LIBPATH1=$(PGSQLSRC)/interfaces/libpq/Release
+LIBPATH2=$(PGSQLSRC)/interfaces/libpq/Debug
+
