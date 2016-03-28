@@ -1,0 +1,6 @@
+<area shape="rect" href="$a00108.html" title="pqxx::undefined_column" alt="" coords="5,316,181,342">
+<area shape="rect" href="$a00109.html" title="pqxx::undefined_function" alt="" coords="205,316,384,342">
+<area shape="rect" href="$a00110.html" title="pqxx::undefined_table" alt="" coords="408,316,568,342">
+<area shape="rect" href="$a00088.html" title="Exception class for failed queries." alt="" coords="237,161,352,188">
+<area shape="rect" href="$a00032.html" title="Run&#45;time failure encountered by libpqxx, similar to std::runtime_error." alt="" coords="245,84,344,110">
+<area shape="rect" href="$a00068.html" title="Mixin base class to identify libpqxx&#45;specific exception types." alt="" coords="216,6,373,33">

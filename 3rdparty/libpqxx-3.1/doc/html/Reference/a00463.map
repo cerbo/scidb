@@ -1,0 +1,4 @@
+<area shape="rect" href="$a00016.html" title="Asynchronous connection policy; connects &quot;in the background&quot;." alt="" coords="5,84,160,110">
+<area shape="rect" href="$a00017.html" title="Connection policy; creates an immediate connection to a database." alt="" coords="184,84,336,110">
+<area shape="rect" href="$a00018.html" title="Lazy connection policy; causes connection to be deferred until first use." alt="" coords="360,84,501,110">
+<area shape="rect" href="$a00019.html" title="Nonfunctional, always&#45;down connection policy for testing/debugging purposes." alt="" coords="525,84,664,110">

@@ -1,0 +1,33 @@
+<area shape="rect" href="$a00001.html" title="Invalid argument passed to libpqxx, similar to std::invalid_argument." alt="" coords="217,31,377,57">
+<area shape="rect" href="$a00022.html" title="pqxx::conversion_error" alt="" coords="215,81,380,108">
+<area shape="rect" href="$a00032.html" title="Run&#45;time failure encountered by libpqxx, similar to std::runtime_error." alt="" coords="248,132,347,159">
+<area shape="rect" href="$a00043.html" title="Internal error in libpqxx library." alt="" coords="225,183,369,209">
+<area shape="rect" href="$a00071.html" title="Something is out of range, similar to std::out_of_range." alt="" coords="231,233,364,260">
+<area shape="rect" href="$a00113.html" title="Error in usage of libpqxx library, similar to std::logic_error." alt="" coords="229,284,365,311">
+<area shape="rect" href="$a00011.html" title="Exception class for lost or failed backend connection." alt="" coords="431,44,609,71">
+<area shape="rect" href="$a00039.html" title="&quot;Help, I don&#39;t know whether transaction was committed successfully!&quot;..." alt="" coords="444,132,596,159">
+<area shape="rect" href="$a00088.html" title="Exception class for failed queries." alt="" coords="463,259,577,285">
+<area shape="rect" href="$a00103.html" title="pqxx::too_many_connections" alt="" coords="676,5,884,32">
+<area shape="rect" href="$a00024.html" title="Error in data provided to SQL statement." alt="" coords="701,56,859,83">
+<area shape="rect" href="$a00033.html" title="Database feature not supported in current setup." alt="" coords="677,107,883,133">
+<area shape="rect" href="$a00040.html" title="pqxx::insufficient_privilege" alt="" coords="687,157,873,184">
+<area shape="rect" href="$a00041.html" title="Resource shortage on the server." alt="" coords="681,208,879,235">
+<area shape="rect" href="$a00042.html" title="pqxx::integrity_constraint_violation" alt="" coords="659,259,901,285">
+<area shape="rect" href="$a00044.html" title="pqxx::invalid_cursor_name" alt="" coords="685,309,875,336">
+<area shape="rect" href="$a00045.html" title="pqxx::invalid_cursor_state" alt="" coords="687,360,873,387">
+<area shape="rect" href="$a00046.html" title="pqxx::invalid_sql_statement_name" alt="" coords="659,411,901,437">
+<area shape="rect" href="$a00063.html" title="PL/pgSQL error." alt="" coords="709,461,851,488">
+<area shape="rect" href="$a00098.html" title="pqxx::syntax_error" alt="" coords="711,588,849,615">
+<area shape="rect" href="$a00030.html" title="pqxx::disk_full" alt="" coords="1001,56,1111,83">
+<area shape="rect" href="$a00060.html" title="pqxx::out_of_memory" alt="" coords="976,107,1136,133">
+<area shape="rect" href="$a00015.html" title="pqxx::check_violation" alt="" coords="979,157,1133,184">
+<area shape="rect" href="$a00035.html" title="pqxx::foreign_key_violation" alt="" coords="960,208,1152,235">
+<area shape="rect" href="$a00056.html" title="pqxx::not_null_violation" alt="" coords="972,259,1140,285">
+<area shape="rect" href="$a00075.html" title="pqxx::restrict_violation" alt="" coords="975,309,1137,336">
+<area shape="rect" href="$a00112.html" title="pqxx::unique_violation" alt="" coords="975,360,1137,387">
+<area shape="rect" href="$a00064.html" title="pqxx::plpgsql_no_data_found" alt="" coords="953,411,1159,437">
+<area shape="rect" href="$a00065.html" title="Exception raised in PL/pgSQL procedure." alt="" coords="985,461,1127,488">
+<area shape="rect" href="$a00066.html" title="pqxx::plpgsql_too_many_rows" alt="" coords="951,512,1161,539">
+<area shape="rect" href="$a00108.html" title="pqxx::undefined_column" alt="" coords="968,563,1144,589">
+<area shape="rect" href="$a00109.html" title="pqxx::undefined_function" alt="" coords="967,613,1145,640">
+<area shape="rect" href="$a00110.html" title="pqxx::undefined_table" alt="" coords="976,664,1136,691">

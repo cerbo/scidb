@@ -1,0 +1,4 @@
+<area shape="rect" href="$a00098.html" title="pqxx::syntax_error" alt="" coords="16,238,155,265">
+<area shape="rect" href="$a00088.html" title="Exception class for failed queries." alt="" coords="28,161,143,188">
+<area shape="rect" href="$a00032.html" title="Run&#45;time failure encountered by libpqxx, similar to std::runtime_error." alt="" coords="36,84,135,110">
+<area shape="rect" href="$a00068.html" title="Mixin base class to identify libpqxx&#45;specific exception types." alt="" coords="7,6,164,33">

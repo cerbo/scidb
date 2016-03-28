@@ -1,0 +1,4 @@
+<area shape="rect" href="$a00041.html" title="Resource shortage on the server." alt="" coords="5,238,203,265">
+<area shape="rect" href="$a00088.html" title="Exception class for failed queries." alt="" coords="47,161,161,188">
+<area shape="rect" href="$a00032.html" title="Run&#45;time failure encountered by libpqxx, similar to std::runtime_error." alt="" coords="55,84,153,110">
+<area shape="rect" href="$a00068.html" title="Mixin base class to identify libpqxx&#45;specific exception types." alt="" coords="25,6,183,33">

@@ -1,0 +1,3 @@
+<area shape="rect" href="$a00103.html" title="pqxx::too_many_connections" alt="" coords="5,239,213,265">
+<area shape="rect" href="$a00032.html" title="Run&#45;time failure encountered by libpqxx, similar to std::runtime_error." alt="" coords="60,84,159,111">
+<area shape="rect" href="$a00068.html" title="Mixin base class to identify libpqxx&#45;specific exception types." alt="" coords="31,7,188,33">

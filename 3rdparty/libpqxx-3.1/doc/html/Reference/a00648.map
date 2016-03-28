@@ -1,0 +1,8 @@
+<area shape="rect" href="$a00025.html" title="pqxx::dbtransaction" alt="" coords="469,56,616,83">
+<area shape="rect" href="$a00055.html" title="pqxx::nontransaction" alt="" coords="465,107,620,134">
+<area shape="rect" href="$a00053.html" title="pqxx::internal::namedclass" alt="" coords="5,82,197,108">
+<area shape="rect" href="$a00008.html" title="pqxx::basic_robusttransaction" alt="" coords="671,6,881,32">
+<area shape="rect" href="$a00009.html" title="pqxx::basic_transaction" alt="" coords="691,56,861,83">
+<area shape="rect" href="$a00097.html" title="&quot;Transaction&quot; nested within another transaction" alt="" coords="699,107,853,134">
+<area shape="rect" href="$a00084.html" title="Slightly slower, better&#45;fortified version of transaction." alt="" coords="952,6,1259,32">
+<area shape="rect" href="$a00104.html" title="Standard back&#45;end transaction, templatized on isolation level." alt="" coords="932,56,1279,83">

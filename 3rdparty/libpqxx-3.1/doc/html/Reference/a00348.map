@@ -1,0 +1,14 @@
+<area shape="rect" href="$a00053.html" title="pqxx::internal::namedclass" alt="" coords="5,157,197,184">
+<area shape="rect" href="$a00106.html" title="pqxx::internal::transactionfocus" alt="" coords="245,118,467,145">
+<area shape="rect" href="$a00105.html" title="pqxx::transaction_base" alt="" coords="272,194,440,221">
+<area shape="rect" href="$a00062.html" title="Processes several queries in FIFO manner, optimized for high throughput." alt="" coords="540,144,647,170">
+<area shape="rect" href="$a00097.html" title="&quot;Transaction&quot; nested within another transaction" alt="" coords="749,118,904,145">
+<area shape="rect" href="$a00100.html" title="Base class for streaming data to/from database tables." alt="" coords="525,42,661,69">
+<area shape="rect" href="$a00099.html" title="Efficiently pull data directly out of a table." alt="" coords="760,56,893,82">
+<area shape="rect" href="$a00101.html" title="Efficiently write data directly to a database table." alt="" coords="764,5,889,32">
+<area shape="rect" href="$a00025.html" title="pqxx::dbtransaction" alt="" coords="520,245,667,272">
+<area shape="rect" href="$a00055.html" title="pqxx::nontransaction" alt="" coords="516,194,671,221">
+<area shape="rect" href="$a00008.html" title="pqxx::basic_robusttransaction" alt="" coords="721,245,932,272">
+<area shape="rect" href="$a00009.html" title="pqxx::basic_transaction" alt="" coords="741,194,912,221">
+<area shape="rect" href="$a00084.html" title="Slightly slower, better&#45;fortified version of transaction." alt="" coords="1003,245,1309,272">
+<area shape="rect" href="$a00104.html" title="Standard back&#45;end transaction, templatized on isolation level." alt="" coords="983,194,1329,221">

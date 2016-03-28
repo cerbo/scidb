@@ -1,0 +1,6 @@
+<area shape="rect" href="$a00062.html" title="Processes several queries in FIFO manner, optimized for high throughput." alt="" coords="5,161,112,188">
+<area shape="rect" href="$a00097.html" title="&quot;Transaction&quot; nested within another transaction" alt="" coords="136,161,291,188">
+<area shape="rect" href="$a00100.html" title="Base class for streaming data to/from database tables." alt="" coords="315,161,451,188">
+<area shape="rect" href="$a00053.html" title="pqxx::internal::namedclass" alt="" coords="117,7,309,33">
+<area shape="rect" href="$a00099.html" title="Efficiently pull data directly out of a table." alt="" coords="239,239,372,265">
+<area shape="rect" href="$a00101.html" title="Efficiently write data directly to a database table." alt="" coords="396,239,521,265">
