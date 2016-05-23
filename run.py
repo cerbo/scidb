@@ -40,7 +40,7 @@ import re
 import ConfigParser
 
 _PGM = None
-_DBG = None
+_DBG = True
 
 class AppError(Exception):
     """Base class for all exceptions that halt script execution."""
@@ -641,10 +641,11 @@ def removeAlternatives(scidbEnv):
 def install(scidbEnv):
     scidbEnv.set_install(True)
     configFile = getConfigFile(scidbEnv)
-
+    #SS commented out for docker 
+    """
     if os.access(configFile, os.R_OK):
         stop(scidbEnv)
-
+    """    
     db_name=os.environ.get("SCIDB_NAME","mydb")
     pg_user=os.environ.get("SCIDB_PG_USER","postgres")
 
@@ -721,13 +722,15 @@ def install(scidbEnv):
                                              getDBUser(configFile, db_name)),
               db_name,
               os.path.join(scidbEnv.install_path,"etc/config.ini")]
-    ret = executeIt(cmdList)
+    #SS commented out for docker
+    #ret = executeIt(cmdList)
 
     # Initialize SciDB
 
     cmdList=[ scidbEnv.scidb_py_path(),
               "initall-force", db_name, os.path.join(scidbEnv.install_path,"etc/config.ini")]
-    ret = executeIt(cmdList)
+    #SS commented out for docker
+    #ret = executeIt(cmdList)
 
     # Setup test links
 
