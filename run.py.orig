@@ -40,7 +40,7 @@ import re
 import ConfigParser
 
 _PGM = None
-_DBG = True
+_DBG = False
 
 class AppError(Exception):
     """Base class for all exceptions that halt script execution."""
