@@ -1,0 +1,127 @@
+<html>
+<head>
+<title>SciDB</title>
+<link rel="stylesheet" type="text/css" href="scidb.css" />
+<script type="text/javascript" src="jquery.min.js"></script>
+<script type="text/javascript">
+var x=-1;             // Session ID
+var cancelled = false;  // cancel flag
+function cancel()
+{
+  cancelled = true;
+  $("#result")[0].innerHTML = "<pre>Query cancelled.</pre>";
+  $.get("/cancel?id="+x);
+}
+
+function execute_query(ret)
+{
+  cancelled=false;
+  $("#exq")[0].disabled=true;
+  $("#exqn")[0].disabled=true;
+  $("#result")[0].innerHTML = "<pre>Wait...</pre>";
+  $("#can")[0].disabled=false;
+
+$.get(
+  "/new_session",
+  function(data){
+    x = parseInt(data); // session ID
+    var sq = $("#query")[0].value;
+    var q = encodeURIComponent(sq);
+    var urix = "/execute_query?id="+x+"&release=1&query="+q+"&save=dcsv";
+    if(ret==0)
+      urix = "/execute_query?id="+x+"&release=1&query="+q;
+    var urir = "/read_lines?id="+x+"&burn=1&n="+numlines.value;
+
+    if(ret==1)
+    {
+    $.get(urir,
+      function(z)
+      {
+        var gt = />/g;
+        var lt = /</g;
+        if(cancelled)
+        {
+          $("#result")[0].innerHTML = "<pre>This query was cancelled, results may be incomplete.</pre>";
+          cancelled = false;
+        } else
+        {
+          $("#result")[0].innerHTML = "";
+        }
+        $("#result")[0].innerHTML = $("#result")[0].innerHTML + "<pre>" + 
+          z.replace(gt,"&gt;").replace(lt,"&lt;")
+          + "</pre>";
+        $("#exq")[0].disabled=false;
+        $("#exqn")[0].disabled=false;
+        $("#can")[0].disabled=true;
+      }).fail(function(z) {});
+    }
+
+    $.get(urix)
+     .fail(function(z){$("#result")[0].innerHTML = "<pre>" +
+        z.responseText.replace(">","&gt;").replace("<","&lt;")
+        + "</pre>";
+        $("#exq")[0].disabled=false;
+        $("#exqn")[0].disabled=false;
+        $("#can")[0].disabled=true;
+//        $.get("/release_session?id="+x[0]);
+     })
+     .done(function(z)
+     {
+       if(ret==0)
+       {
+         $("#result")[0].innerHTML = "<pre>SciDB Query ID:" + z + "</pre>";
+       }
+       $("#exq")[0].disabled=false;
+        $("#exqn")[0].disabled=false;
+       $("#can")[0].disabled=true;
+     })
+     .always(function(z)
+     {
+     });
+
+  })
+  .fail(function()
+  {
+    $("#result")[0].innerHTML = "SESSION ERROR!";
+    $("#exq")[0].disabled=false;
+    $("#exqn")[0].disabled=false;
+    $("#can")[0].disabled=true;
+  });
+}
+</script>
+</head>
+
+<body>
+<div id="rounded">
+<div id="main" class="container">
+<h1>SciDB Explorer</h1>
+<br/> <br/>
+
+<textarea rows="4" id="query" style="width:100%">
+</textarea>
+<br/>
+<div style="width:100%">
+ <div style="Float:left;width:60%">
+  <button id="exq" onclick="execute_query(1);">Execute and return result</button>
+  <button id="exqn" onclick="execute_query(0);">Execute</button>
+  <button id="upl" onclick="do_upload();" disabled=true>Upload file...</button>
+  <button id="can" onclick="cancel();" disabled=true>Cancel</button>
+ </div>
+ <div style="Float:left;width:1%"></div>
+ <div style="Float:left;width:39%;text-align:right">
+  Maximum number of lines to return: 
+  <select id="numlines">
+  <option value="20">20</option>
+  <option value="100">100</option>
+  <option value="1000000">*</option>
+  </select>
+ </div>
+</div>
+<br/><br/>
+<div id="result" class="result" style="width:100%;">
+</div>
+
+</div>
+</div>
+</body>
+</html>

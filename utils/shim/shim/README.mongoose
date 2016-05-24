@@ -1,0 +1,4 @@
+* We added the mg_append callback. It's equivalent to mg_upload except that
+  it appends data to a file instead of overwriting the file.
+* We modified the .htpasswd authentication scheme to use plaintext. The
+  mongoose scheme stored the user:realm:paswd md5 hash in a custom way.

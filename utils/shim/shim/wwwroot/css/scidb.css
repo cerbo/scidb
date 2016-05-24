@@ -1,0 +1,69 @@
+/* Page styles */
+
+body,h1,h2,h3,p,td,quote,small,form,input,ul,li,ol,label{
+  margin:0px;
+  padding:0px;
+  font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+  margin-top:20px;
+  color:#51555C;
+  font-size:13px;
+  background-color:#123456;
+  text-align:center;
+}
+
+.clear{
+  clear:both;
+}
+
+
+#rounded{
+  width:780px;
+  margin:20px auto;
+  text-align:left;
+}
+
+.container{
+  background-color:#FFFFFF;
+  padding:10px 20px 20px 20px;
+}
+
+h1{
+  font-size:28px;
+  font-weight:bold;
+  font-family:"Trebuchet MS",Arial, Helvetica, sans-serif;
+}
+
+h2{
+  font-weight:normal;
+  font-size:20px;
+  color:#999999;
+}
+
+#pageContent{
+  margin-top:20px;
+
+  border:1px dashed #cccccc;
+  padding:10px;
+  
+  -moz-border-radius: 5px;
+  -khtml-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}
+
+#loading{
+  visibility:hidden;
+}
+
+div.result
+{
+  overflow-y: scroll;
+  overflow-x: auto;
+  height: 40%;
+  padding: 8px;
+  margin-top:15px;
+  font-family:Courier New, monospace;
+}

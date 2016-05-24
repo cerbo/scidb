@@ -1,0 +1,123 @@
+<!--
+  * Add new operators to this document using the blank basic
+  * operator template at the bottom of this document. The index
+  * on the left is automatically generated.
+ -->
+
+<html>
+<head>
+<title>SciDB Quick Aggregate Reference</title>
+<link href='http://fonts.googleapis.com/css?family=Average+Sans' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Merienda' rel='stylesheet' type='text/css'>
+<style type="text/css">
+div.hl { position:fixed; top:0; left:0; width:13%; height:35px; background: #dddddd; float: left; padding-left:5px; padding-top:5px; font-size: 1em !important; color: #000 !important; font-family: 'Merienda', sans-serif; z-index: 5;}
+div.hc { position:fixed; top:0; left:13%; width:50%; height:35px; background: #dddddd; float: left; padding-left:5px; padding-top:5px; font-size: 1em !important; color: #000 !important; font-family: 'Merienda', sans-serif; z-index: 5;}
+div.hr { position:fixed; top:0; left:63%; width:37%; height:35px; background: #dddddd; float: left; padding-left:5px; padding-top:5px; font-size: 1em !important; color: #000 !important; font-family: 'Merienda', sans-serif; z-index: 5;}
+div.c {position:absolute; top:35px; left:0; width:100% }
+div.l { width: 13%; background: #dddddd; float: left; height: 10000px; padding-left:5px; font-size: 1em !important; color: #000 !important; font-family: 'Average Sans', sans-serif; z-index: 5;}
+div.spacer { width: 10px; float: left}
+div.r{ float: left; font-size: 1em !important; color: #000 !important; font-family: 'Average Sans', sans-serif; width: 80%; z-index: -1;}
+div.x { background: #eee; font-family: 'Courier New', monospace !important; white-space: pre; width: 100%; font-size: 0.85em; border: 1px solid #bbbbbb; padding-left:15px;}
+h2.s {font-family: 'Average Sans', sans-serif;  font-weight: 800; }
+a.hr {font-family: 'Merienda', sans-serif; text-decoration:underline;}
+a {font-size: 1em !important; color: #000 !important; font-family: 'Average Sans', sans-serif; text-decoration:none;}
+table.tbl { border:1px solid gray; margin-left:20px; border-collapse: collapse;}
+table.tbl th { border-width: 1px; border-color: gray; border-style: solid;}
+table.tbl tr { border-width: 1px; border-color: gray; border-style: solid;}
+table.tbl td { border-width: 1px; border-color: gray; border-style: solid;}
+</style>
+
+<script>
+window.onload = function()
+{
+  var i = document.getElementById("idx");
+  var r = document.getElementById("ref");
+  var a = document.getElementsByTagName("a");
+  var s = "<a name='index'></a>";
+  for(var j=0;j<a.length;j++)
+  {
+    if(a[j].name.length>0)
+      s = s + "<a href='#"+a[j].name+"'>"+ a[j].name + "</a><br/>";
+  }
+  i.innerHTML = s;
+  i.style.height = r.offsetHeight + "px";
+}
+</script>
+</head>
+<body>
+<div class="hl" id="hdr">
+<a class="hr" href="">Index</a>
+</div>
+<div class="hc" id="hdr">
+SciDB Quick Reference Guide
+</div>
+<div class="hr" id="hdr">
+<a href="./operators.html">Operators</a>
+&nbsp; &nbsp; &nbsp; &nbsp;
+<a href="./aggregates.html"><u>Aggregates</u></a>
+</div>
+<div class="c">
+<div class="l" id="idx">
+<a href="#adddim">adddim</a><br/>
+<a href="#allversions">allversions</a><br/>
+</div>
+<div class="spacer"> &nbsp; </div>
+
+<div class="r" id="ref">
+
+<a name="stdev"></a><h2 class="s">stdev</h2>
+<i>stdev(array, attribute[, dimension1[, dimension2[, ...]]])</i>
+<p/>Create an array with the standard deviation of the indicated input
+array attribute values along the indicated dimensions. If no dimension
+is specified, compute the standard deviation of all indicated
+attribute values in the array.
+<br/>
+<div class="x">
+store(build(&lt;x:double&gt;[i=1:10,10,0,j=1:10,10,0],10*double(random())/2147483647 + 1),A);
+stdev(A, x);
+stdev(A, x, j);
+
+</div><br/>
+
+
+<a name="sum"></a><h2 class="s">sum</h2>
+<i>sum(array[, attribute[, dimension1[, dimension2, ...]]])</i>
+<p/>Create an array that returns the sum of all attributes in the array,
+or just the sum of values in a specified attribute,
+optionally grouped along one or more dimensions.
+<br/>
+<div class="x">
+sum(build(&lt;x:double&gt;[i=1:10,5,0,j=1:10,10,0], sin((double(i*j)/100))),x,i);
+
+</div><br/>
+
+
+<a name="var"></a><h2 class="s">var</h2>
+<i>var(array[, attribute[, dimension1[, dimension2, ...]]])</i>
+<p/>Create an array that returns the variance of all attributes in the array,
+or just the variance of values in a specified attribute,
+optionally grouped along one or more dimensions.
+<br/>
+<div class="x">
+var(build(&lt;x:double&gt;[i=1:10,5,0,j=1:10,10,0], sin((double(i*j)/100))),x,i);
+
+</div><br/>
+
+
+<!--
+BLANK OPERATOR TEMPLATE FOLLOWS
+
+<a name=""></a><h2 class="s"></h2>
+<i></i>
+<p/>
+<br/>
+<div class="x">
+</div><br/>
+
+-->
+
+</div>
+
+</div>
+</body>
+</html>

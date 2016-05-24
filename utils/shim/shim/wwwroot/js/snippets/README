@@ -1,0 +1,60 @@
+The scidb.js file defines the exports.snippetText string. This string follows a
+somewhat peculiar format used by ace.js. I've modified the format slightly to
+admit extra doc text with arbitrary HTML formatting.
+
+Use the experimental 'dox' script in the doc directory of this repository
+to scrape SciDB doxygen help from source code files and generate a scidb.js
+snippet file.
+
+A 'snippet' is a tooltip window that appears during autocompletion. If
+selected, the resulting pasted text can contain a full function signature and
+an easy way for users to tab between parameters.
+
+Note that exports.snippetText must be a single JavaScript string value.
+
+New lines are coded with \n\
+Blank lines are not allowed.
+
+Each snippet must start with:
+
+snippet term...\n\
+
+(the term... part will appear in bold text at the top of the tooltip).
+
+All except the 1st line of the snippet must start with the TAB character.
+
+The 2nd line of the snippet should be a function signature, for example:
+
+	redimension( ${1:array}, ${2:schema}, ${3:aggregation_expression} )\n\
+
+This is the line of code that will be pasted in to the text editor if selected.
+The notation ${n:arg} indicates the nth function argument. Users can TAB
+through the arguments after the snippet is pasted into the editor. The argument
+numbering must start at 1.
+
+That's all that is required for a snippet. The rest is extra custom stuff that
+is optional (that I added to ace.js).
+
+The 3rd snippet line may optionally be
+
+	---- doc ----<div clas='doc'>...</div>\n\
+
+The ... can be any valid HTML except for newlines (not allowed). If you really
+want to put a newline in, for example maybe to make things a bit more readable,
+then use \n\ and make sure that the next line starts with a TAB. But, it's
+best to just format the HTML with line breaks internally like <br> and put
+everything in one line in the snippet. NOTE! HTML encodes < with &lt; and
+> with &gt; -- don't forget that...
+
+Here is a complete example:
+
+exports.snippetText = "snippet build (operator)\n\
+        build( ${1:schema}, ${2:expression} )\n\
+        ---- doc ----<div class='doc'><i>build( schema, expression [,true])</i>\n\
+        <br>Create an array with the specified single-attribute <i>schema</i> whose values are determined by scalar-valued SciDB <i>expression</i>.<br><b>Example:</b><pre>build(&lt;i:int64&gt;[j=1:10,5,0], j*2)</pre>\n\
+";
+
+
+Writing this shit by hand is pretty ugly. But it should be very easy to
+automaticallly generate this. If only all SciDB operator/function documentation
+were in doxygen.

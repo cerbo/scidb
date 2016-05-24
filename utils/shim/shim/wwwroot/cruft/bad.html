@@ -1,0 +1,82 @@
+<html>
+<head>
+<title>SciDB</title>
+<link rel="stylesheet" type="text/css" href="scidb.css" />
+<script type="text/javascript" src="jquery.min.js"></script>
+<script type="text/javascript">
+function execute_query()
+{
+$.get(
+  "/new_session",
+  function(data){
+    var x = data.split("\n"); // x[0]=id, x[1]=file, x[2]=pipe
+    var sq = "save("+$("#query")[0].value+",'"+x[2]+"',0,'dcsv')";
+    var q = encodeURIComponent(sq);
+    var uri = "/execute_query?id="+x[0]+"&query="+q;
+    $.get(uri,
+      function(r) { }
+     )
+     .error(function(z){$("#result")[0].innerHTML = "<pre>EX " +
+        z.responseText.replace(">","&gt;").replace("<","&lt;")
+        + "</pre>";
+        $("#exq")[0].disabled=false;
+        $.get("/release_session?id="+x[0]);
+     });
+
+    $.get("/readlines_to_eof?id="+x[0]+"&n="+numlines.value,
+      function(z)
+      {
+        var gt = />/g;
+        var lt = /</g;
+        $("#result")[0].innerHTML = "<pre>" + 
+          z.replace(gt,"&gt;").replace(lt,"&lt;")
+          + "</pre>";
+        $("#exq")[0].disabled=false;
+      });
+
+
+  })
+  .always(function(){
+    $("#exq")[0].disabled=true;
+    $("#result")[0].innerHTML = "<pre>...</pre>";
+  })
+  .error(function()
+  {
+    $("#result")[0].innerHTML = "SESSION ERROR!";
+    $("#exq")[0].disabled=false;
+  });
+}
+</script>
+</head>
+
+<body>
+<div id="rounded">
+<div id="main" class="container">
+<h1>SciDB Explorer</h1>
+<br/> <br/>
+
+<textarea rows="4" id="query" style="width:100%">
+</textarea>
+<br/>
+<div style="width:100%">
+ <div style="Float:left;width:50%">
+  <button id="exq" onclick="execute_query();">Execute</button>
+ </div>
+ <div style="Float:left;width:50%"></div>
+ <div style="Float:left;width:50%;text-align:right">
+  Maximum number of lines to return: 
+  <select id="numlines">
+  <option value="20">20</option>
+  <option value="100">100</option>
+  <option value="1000000">*</option>
+  </select>
+ </div>
+</div>
+<br/><br/>
+<div id="result" class="result" style="width:100%;">
+</div>
+
+</div>
+</div>
+</body>
+</html>

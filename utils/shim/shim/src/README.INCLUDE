@@ -1,0 +1,2 @@
+The network and util directories are copied from the SciDB trunk source, and
+they are tied to specific SciDB versions. Update them as required.

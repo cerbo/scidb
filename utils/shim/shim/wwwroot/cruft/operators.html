@@ -1,0 +1,850 @@
+<!--
+  * Add new operators to this document using the blank basic
+  * operator template at the bottom of this document. The index
+  * on the left is automatically generated.
+ -->
+
+<html>
+<head>
+<title>SciDB Quick Operator Reference</title>
+<link href='http://fonts.googleapis.com/css?family=Average+Sans' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Merienda' rel='stylesheet' type='text/css'>
+<style type="text/css">
+div.hl { position:fixed; top:0; left:0; width:13%; height:35px; background: #dddddd; float: left; padding-left:5px; padding-top:5px; font-size: 1em !important; color: #000 !important; font-family: 'Merienda', sans-serif; z-index: 5; border-bottom:0.95px solid #999;}
+div.hc { position:fixed; top:0; left:13%; width:50%; height:35px; background: #dddddd; float: left; padding-left:5px; padding-top:5px; font-size: 1em !important; color: #000 !important; font-family: 'Merienda', sans-serif; z-index: 5; border-bottom: 0.95px solid #999;}
+div.hr { position:fixed; top:0; left:63%; width:37%; height:35px; background: #dddddd; float: left; padding-left:5px; padding-top:5px; font-size: 1em !important; color: #000 !important; font-family: 'Merienda', sans-serif; z-index: 5; border-bottom: 0.95px solid #999;}
+div.c {position:absolute; top:35px; left:0; width:100% }
+div.l { width: 13%; background: #dddddd; float: left; height: 10000px; padding-left:5px; font-size: 1em !important; color: #000 !important; font-family: 'Average Sans', sans-serif; z-index: 5; padding-top: 10px;}
+div.spacer { width: 10px; float: left}
+div.r{ float: left; font-size: 1em !important; color: #000 !important; font-family: 'Average Sans', sans-serif; width: 80%; z-index: -1;}
+div.x { background: #eee; font-family: 'Courier New', monospace !important; white-space: pre; width: 100%; font-size: 0.85em; border: 1px solid #bbbbbb; padding-left:15px;}
+h2.s {font-family: 'Average Sans', sans-serif;  font-weight: 800; }
+a.hr {font-family: 'Merienda', sans-serif; text-decoration:underline;}
+a {font-size: 1em !important; color: #000 !important; font-family: 'Average Sans', sans-serif; text-decoration:none;}
+table.tbl { border:1px solid gray; margin-left:20px; border-collapse: collapse;}
+table.tbl th { border-width: 1px; border-color: gray; border-style: solid;}
+table.tbl tr { border-width: 1px; border-color: gray; border-style: solid;}
+table.tbl td { border-width: 1px; border-color: gray; border-style: solid;}
+</style>
+
+<script>
+window.onload = function()
+{
+  var i = document.getElementById("idx");
+  var r = document.getElementById("ref");
+  var a = document.getElementsByTagName("a");
+  var s = "<a name='index'></a>";
+  for(var j=0;j<a.length;j++)
+  {
+    if(a[j].name.length>0)
+      s = s + "<a href='#"+a[j].name+"'>"+ a[j].name + "</a><br/>";
+  }
+  i.innerHTML = s;
+  i.style.height = r.offsetHeight + "px";
+}
+</script>
+</head>
+<body>
+<div class="hl" id="hdr">
+<a class="hr" href="">Index</a>
+</div>
+<div class="hc" id="hdr">
+SciDB Quick Reference Guide
+</div>
+<div class="hr" id="hdr">
+<a href="./operators.html"><u>Operators</u></a>
+&nbsp; &nbsp; &nbsp; &nbsp;
+<a href="./aggregates.html">Aggregates</a>
+</div>
+<div class="c">
+<div class="l" id="idx">
+<a href="#adddim">adddim</a><br/>
+<a href="#allversions">allversions</a><br/>
+</div>
+<div class="spacer"> &nbsp; </div>
+
+
+<div class="r" id="ref">
+<h2>What is a SciDB operator?</h2>
+
+SciDB <i>operators</i> are array-valued relations that take zero or more input
+arguments and output a SciDB array. The arguments may be a mix of scalar values,
+scalar-valued functions, and SciDB arrays depending on the operator. All
+operators produce output arrays, some operators also produce side-effects by
+modifying SciDB system state or saving data to files, etc.
+
+<hr/>
+
+
+<a name="adddim"></a><h2 class="s">adddim</h2>
+<i>adddim(array, new_dimension_name)</i>
+<p/>Create an array that adds a new integer dimension of length 1 to an existing array.
+<br/>
+<div class="x">
+store(build(&lt;x:double&gt;[i=1:10,10,0],i), A);
+adddim(A, k);
+
+</div><br/>
+
+<a name="allversions"></a><h2 class="s">allversions</h2>
+<i>allversions(array)</i>
+<p/>Create an array that contains all the versions of an existing array,
+organized along a new dimension called "VersionNo."
+<br/>
+<div class="x">
+store(build(&lt;x:double&gt;[i=1:10,10,0],i), A);
+store(build(&lt;x:double&gt;[i=1:10,10,0],2*i), A);
+store(build(&lt;x:double&gt;[i=1:10,10,0],3*i), A);
+allversions(A);
+
+</div><br/>
+
+
+<a name="analyze"></a><h2 class="s">analyze</h2>
+<i>analyze(array[,attribute1, attribute2, ...])</i>
+<p/>Create an array that  characterize the contents of an existing array. Each cell in the result array includes
+the following attributes:
+<ul>
+<li>attribute_number: An index for the one-dimensional result array.
+<li>atttribute_name: The name of an attribute from the source array.
+<li>min: The lowest value for the attribute in the source array.
+<li>max: The highest value for the attribute in the source array.
+<li>distinct_count: An estimate of the number of different values appearing in the source array.
+<li>non_null_count: The number of cells in the array with non-null values for the attribute.
+</ul>
+<br/>
+<div class="x">
+store(build_sparse(&lt;x:double&gt;[i=1:10,10,0],2*i,i&lt;5), A);
+analyze(x);
+
+</div><br/>
+
+<a name="apply"></a><h2 class="s">apply</h2>
+<i>apply(source_array,new_attribute1,function1[,new_attribute2,function2]...)</i>
+<p/>Create an array with new attributes defined by scalar functions of existing attributes and/or constants.
+<br/>
+<div class="x">
+store(build(&lt;x:double&gt;[i=1:10,10,0],i), A);
+apply(A, y, sqrt(x) + 1);
+
+</div><br/>
+
+
+<a name="ApproxDC"></a><h2 class="s">ApproxDC</h2>
+<i>ApproxDC(array[,attribute[,dimension_1,dimension_2,...])
+</i>
+<p/>Create an array that contains an estimate the number of distinct values of an array attribute,
+optionally grouped along one or more dimensions.
+<br/>
+<div class="x">
+store(build(&lt;x:double&gt;[i=1:10,10,0],i/2), A);
+ApproxDC(A,x);
+
+</div><br/>
+
+<a name="attribute_rename"></a><h2 class="s">attribute_rename</h2>
+<i>attribute_rename(array,old_attribute1,new_attribute1[, old_attribute2,new_attribute2,...])
+</i>
+<p/>Create a duplicate array with renamed attributes.
+<br/>
+<div class="x">
+store(build(&lt;x:double&gt;[i=1:10,10,0],i/2), A);
+attribute_rename(A,x,z);
+
+</div><br/>
+
+<a name="attributes"></a><h2 class="s">attributes</h2>
+<i>attributes(array)</i>
+<p/>Create an array describing attributes of an existing named array.
+<br/>
+<div class="x">
+store(apply(build(&lt;x:double&gt;[i=1:10,10,0],i/2),y,5), A);
+attributes(A);
+
+</div><br/>
+
+
+<a name="avg_rank"></a><h2 class="s">avg_rank</h2>
+<i>avg_rank(array[, attribute[, dimension1[, dimension2, ...]]])</i>
+<p/>Create an array with an attribute that ranks an existing array attribute along one or more dimensions, averaging ties. The rank attribute name is the original attribute name plus "_rank." The original array attribute is also returned in the output array.
+<br/>
+<div class="x">
+store(build(&lt;x:double&gt;[i=1:4,4,0,j=1:4,4,0],10*double(random())/2147483647 + 1),A);
+avg_rank(A,x,i);
+
+</div><br/>
+
+
+<a name="between"></a><h2 class="s">between</h2>
+<i>between(array, low_coord1[, low_coord2, ...], high_coord1[, high_coord2, ...])</i>
+<p/>
+Create a new sparse array <b>of the same shape</b> as the input array with
+empty cells outside the specified rectangular coordinate range and copies of
+the input array cells elsewhere.
+Compare with the <a href="#subarray"><u>subarray</u></a> operator.
+<br/>
+<div class="x">
+store(build(&lt;x:double&gt;[i=1:10,10,0],i), A);
+between(A, 3, 7);
+
+</div><br/>
+
+
+<a name="build"></a><h2 class="s">build</h2>
+<i>build(array | schema, expression)</i>
+<p/>Create a single-attribute array or schema definition with values defined by the expression. The array dimensions must be bounded.
+<br/>
+<div class="x">
+build(&lt;x:double&gt;[i=1:10,10,0],sqrt(i));
+
+create_array(A,&lt;x:double&gt;[i=1:10,10,0]);
+build(A,sqrt(i));
+
+</div><br/>
+
+<a name="build_sparse"></a><h2 class="s">build_sparse</h2>
+<i>build_sparse(array | schema, expression, boolean_expression)</i>
+<p/>Create a single-attribute sparse array or schema definition with values defined by the expression in coordinate locations that satisfy the boolean expression. Array dimensions must be bounded.
+<br/>
+<div class="x">
+build_sparse(&lt;x:double&gt;[i=1:10,10,0], i, double(i)/2 = i/2);
+
+create_array(A,&lt;x:double&gt;[i=1:10,10,0]);
+build_sparse(A, i, double(i)/2 = i/2);
+
+</div><br/>
+
+<a name="cancel"></a><h2 class="s">cancel</h2>
+<i>cancel(query_id)</i>
+<p/>Cancel a query. Nothing is returned.
+<br/>
+
+
+<a name="cast"></a><h2 class="s">cast</h2>
+<i>cast(array, array | schema)</i>
+<p/>Duplicate an existing array, changing its schema. The example converts
+a string dimension to an integer dimension. Cast can also change dimension
+and attribute names.
+<br/>
+<div class="x">
+create_array(A,&lt;i:int64&gt;[x(string)=10,10,0]);
+redimension_store(build(&lt;x:string&gt;[i=1:10,10,0],'x'+string(i)), A);
+cast(A,&lt;i:int64&gt;[x=0:9,10,0]);
+
+</div><br/>
+
+
+
+<a name="concat"></a><h2 class="s">concat</h2>
+<i>concat(array1, array2)</i>
+<p/>Create a new array that contains the concatenation
+of two arrays along their left-most dimensions, which
+must have the same starting index, chunk size and overlap. All other dimensions
+and attributes must match exactly.
+<br/>
+<div class="x">
+store(build(&lt;x:double&gt;[i=0:3,4,0,j=0:2,1,0],1),array1);
+store(build(&lt;x:double&gt;[i=0:1,4,0,j=0:2,1,0],2),array2);
+concat(array1,array2);
+
+</div><br/>
+
+
+<a name="cross"></a><h2 class="s">cross</h2>
+<i>cross(array1, array2)</i>
+<p/>Create the cross product of two arrays.
+<br/>
+<div class="x">
+store(build(&lt;x:double&gt;[i=1:10,5,0,j=0:2,1,0],1), A);
+cross(A, build(&lt;y:double&gt;[k=1:5,5,0],2));
+
+</div><br/>
+
+
+<a name="cross_join"></a><h2 class="s">cross_join</h2>
+<i>cross_join(array1, array2[, dimension1, dimension2[, dimension3, dimension4, ...]])
+</i>
+<p/>Create the cross-product array of two arrays with equality predicates applied to
+pairs of dimensions. The arrays must have int64 dimension types.
+<br/>
+<div class="x">
+store(build(&lt;x:double&gt;[i=1:10,5,0,j=0:2,1,0],1), A);
+cross_join(A, build(&lt;y:double&gt;[i=1:10,5,0],2) as B, A.i, B.i);
+
+</div><br/>
+
+
+<a name="deldim"></a><h2 class="s">deldim</h2>
+<i>deldim(array)</i>
+<p/>Create an array that omits the leftmost dimension of the specified array. The leftmost dimension must have length 1. This is the inverse of adddim.
+<br/>
+<div class="x">
+store(build(&lt;x:double&gt;[i=1:10,5,0,j=0:2,1,0],1), A);
+store(adddim(A,k),B);
+deldim(B);
+</div><br/>
+
+
+<a name="dimensions"></a><h2 class="s">dimensions</h2>
+<i>dimensions(array)</i>
+<p/>Create an array that describes the dimensions of the specified array.
+<br/>
+<div class="x">
+store(build(&lt;x:double&gt;[i=1:10,5,0,j=0:2,1,0],1), A);
+dimensions(A);
+</div><br/>
+
+<a name="filter"></a><h2 class="s">filter</h2>
+<i>filter(array, boolean_expression)</i>
+<p/>Create an array of the same shape as the specified array that copies cells that
+meet the Boolean expression and marks cells that don't meet the condition EMPTY. The
+expression may use attributes and/or dimensions.
+<br/>
+<div class="x">
+store(build(&lt;x:double&gt;[i=1:10,5,0,j=0:2,1,0],5), A);
+filter(A, x + i < 10);
+
+</div><br/>
+
+
+<a name="help"></a><h2 class="s">help</h2>
+<i>help(operator_name)</i>
+<p/>Create an array that describes how to use the specified operator name
+(specified as a string value).
+<br/>
+<div class="x">
+help('build_sparse')
+
+</div><br/>
+
+
+<a name="insert"></a><h2 class="s">insert</h2>
+<i>insert(input, array)</i>
+<p/>Create an array that inserts specified input values into an existing named array.
+This operator has the side effect of also updating the original named array with
+the inserted values. The arrays must be conformable with int64 dimension types.
+<br/>
+<div class="x">
+store(build_sparse(&lt;x:double&gt;[i=1:10,5,0], sqrt(i), double(i)/2 = i/2),A);
+insert(build(&lt;x:double&gt;[i=1:10,5,0],i),A);
+
+</div><br/>
+
+
+<a name="join"></a><h2 class="s">join</h2>
+<i>join(array1, array2)</i>
+<p/>Create an array that joins attributes from non-empty cells of two arrays at matching dimension values.
+The arrays must have the same dimension starting coordinates, chunk sizes and chunk overlaps.
+<br/>
+<div class="x">
+store(build(&lt;x:double&gt;[i=1:10,5,0], sqrt(i)),A);
+join(build(&lt;y:double&gt;[i=1:50,5,0], i*i),A);
+
+</div><br/>
+
+
+<a name="list"></a><h2 class="s">list</h2>
+<i>list(element)</i>
+<p/>Create an array that lists the requested elements in SciDB. 'element' is a string value that may be one of:
+<ul>
+<li>'arrays'
+<li>'aggregates'
+<li>'functions'
+<li>'operators'
+<li>'types'
+<li>'queries'
+<li>'instances'
+<li>'libraries'
+</ul>
+Leaving element unspecified implies list('arrays').
+<br/>
+<div class="x">
+list('arrays')
+
+</div><br/>
+
+<a name="lookup"></a><h2 class="s">lookup</h2>
+<i>lookup(indices, array)</i>
+<p/>Create an array of the same shape as the "indices" array that contains
+values in the specified array by coordinates specified in the attributes of
+the "indices" array. The "indices" array must have the same number of attributes
+as dimensions in the specified array.
+<p/>
+The example resamples rows from a two dimensional array "A" with replacement.
+The array "I" contains the row resampling vector. (Note: the odd expression
+"double(random())/2147483647" generates numbers sampled from a uniform
+pseudo-random distribution between zero and 1.)
+<br/>
+<div class="x">
+store(build(&lt;x:double&gt;[i=1:10,5,0,j=1:10,5,0],i*10+j),A);
+store(build(&lt;i:int64&gt;[k=1:10,10,0],10*double(random())/2147483647 + 1),I);
+lookup(cross(I,build(&lt;j:int64&gt;[h=1:10,10,0],h)),A);
+
+</div><br/>
+
+
+<a name="max"></a><h2 class="s">max</h2>
+<i>max(array[, attribute[, dimension1[, dimension2, ...]]])</i>
+<p/>Create an array that returns the maximum value of all attributes in an entire
+array, or of a specified attribute, optionally grouped along one or more dimensions.
+<br/>
+<div class="x">
+max(build(&lt;x:double&gt;[i=1:10,5,0], sin(i)));
+
+max(build(&lt;x:double&gt;[i=1:10,5,0,j=1:10,5,0], sin(i-j)), x, i);
+
+</div><br/>
+
+
+<a name="merge"></a><h2 class="s">merge</h2>
+<i>merge(array1, array2)</i>
+<p/>Create an array that merges the contents of two arrays. The arrays must
+have the same number of attributes, attribute types, starting dimension values, chunk sizes
+and chunk overlaps. Non-empty cells from "array1" appear in the output, as do
+non-empty cells from "array2" that correspond to empty cells in "array1." Both arrays
+must have int64 dimension types.
+<br/>
+<div class="x">
+store(build_sparse(&lt;x:double&gt;[i=1:10,5,0], sqrt(i), double(i)/2 = i/2), A);
+merge(A, build(&lt;x:double&gt;[i=1:10,5,0], i));
+
+</div><br/>
+
+<a name="min"></a><h2 class="s">min</h2>
+<i>min(array[, attribute[, dimension1[, dimension2, ...]]])</i>
+<p/>Create an array that returns the minimum value of all attributes in an
+array, or of a specified attribute, optionally grouped along one or more dimensions.
+<br/>
+<div class="x">
+min(build(&lt;x:double&gt;[i=1:10,5,0], sin(i)));
+
+</div><br/>
+
+<a name="multiply"></a><h2 class="s">multiply</h2>
+<i>multiply(array1, array2[, option])</i>
+<p/>Create the matrix product array from conformable, two-dimensional input arrays.  The input arrays must each have a single attribute and bounded dimensions. The optinal parameter is a string value indicating either 'sparse' 'dense' or 'auto' code paths. The array attributes value types must have scalar multiplication defined.
+<br/>
+<div class="x">
+store(build(&lt;val:double&gt;[i=0:2,3,0,j=0:1,2,0],sin(i+j)),A);
+store(build(&lt;val:double&gt;[i=0:1,2,0,j=0:1,2,0],cos(i+j)),B);
+multiply(A,B);
+
+</div><br/>
+
+<a name="normalize"></a><h2 class="s">normalize</h2>
+<i>normalize(array)</i>
+<p/>Create a new array from the one-dimensional
+input array with a single, numeric-valued
+attribute, by dividing by the square root of the sum of the squares of the
+attribute values in the input array.
+<br/>
+<div class="x">
+store(build(&lt;val:double&gt;[i=0:10,10,0],cos(i/3)), A);
+normalize(A);
+
+</div><br/>
+
+
+<a name="project"></a><h2 class="s">project</h2>
+<i>project(array, attribute[, attribute[,...]])</i>
+<p/>Create a duplicate of the specified array restricted to
+the listed attributes.
+<br/>
+<div class="x">
+store(apply(build(&lt;val:double&gt;[i=0:10,10,0],cos(i/3)), y, sin(i/3)), A);
+project(A, y);
+
+</div><br/>
+
+
+<a name="quantile"></a><h2 class="s">quantile</h2>
+<i>quantile(array[,attribute1] [,dimension1, dimension2, ...], n)</i>
+<p/>Create an array that divides the specified attribute values from
+the input array into n quantiles along the specified dimensions.
+If no attribute is indicated, quantile uses the left-most array
+attribute. The output array contains two attributes, "percentage" and
+"*_quantile," where "*" indicates the attribute name.
+The "percentage" attribute is double-valued and indicates XXX
+<br/>
+<div class="x">
+store(build(&lt;x:double&gt;[i=1:10,10,0,j=1:10,10,0],10*double(random())/2147483647 + 1),A);
+quantile(A, 4, x, i);
+
+</div><br/>
+
+<a name="rank"></a><h2 class="s">rank</h2>
+<i>rank(array[, attribute[, dimension1[, dimension2, ...]]])</i>
+<p/>Create an array that assigns rank order to elements of specified array.
+<br/>
+<div class="x">
+store(build(&lt;x:double&gt;[i=1:10,10,0], random()%7/1.0), A);
+rank(A, x);
+
+</div><br/>
+
+
+<a name="redimension_store"></a><h2 class="s">redimension_store</h2>
+<i>redimension_store(source, array[, aggregate (source_attribute) [as result_attribute]]...)
+</i>
+<p/>Create an array that omits attributes or dimensions, promotes attributes from "source" as dimensions, or demotes dimensions from "source" to attributes, optionally applying aggregates as it goes. This operator has the side effect of storing data to the specified "array." Redimension_store also returns the array as output. Redimension_store is a workhorse SciDB operator.
+<br/><br/>
+The first example converts an integer dimension in the build array into
+an integer attribute in the array "A" and converts a string attribute in
+the build array into a string dimension into the array "A." The "j" dimension
+of the output array is not explicitly specified and the first dimension value is used by default.
+<div class="x">
+create_array(A,&lt;i:int64&gt;[x(string)=10,10,0,j=1:10,10,0]);
+redimension_store(build(&lt;x:string&gt;[i=1:10,10,0],'x'+string(i)), A);
+
+</div><br/>
+The next example is almost the same as the first, but there are collisions
+in the string dimension. They are resolved by implicitly using the unspecified
+"j" dimension as required, referred to as a "synthetic dimension" in this
+context.
+<br/><br/>
+<div class="x">
+create_array(A,&lt;i:int64&gt;[x(string)=10,10,0,j=1:2,10,0]);
+redimension_store(build(&lt;x:string&gt;[i=1:10,10,0],'x'+string(i/2)), A);
+
+</div><br/>
+
+
+<a name="regrid"></a><h2 class="s">regrid</h2>
+<i>regrid(array, grid_1[, grid2[, ...]], aggregate1[, aggregate2[, ...]])</i>
+<p/>Create an array that partitions the cells in the input array into blocks, and for each block, apply an aggregate operation over the values in the block. Each grid argument must be integer-valued (of type int64).
+<br/><br/>
+The example produces a 5x5 array that averages values and computes the maximum value over 2x2 blocks from the input array.
+<div class="x">
+store(build(&lt;x:double&gt;[i=1:10,10,0,j=1:10,10,0],10*double(random())/2147483647 + 1),A);
+regrid(A, 2, 2, sum(x) as sum, max(x) as max);
+
+</div><br/>
+
+
+<a name="remove"></a><h2 class="s">remove</h2>
+<i>remove(array)</i>
+<p/>Remove an array.
+<br/>
+<div class="x">
+store(build(&lt;x:double&gt;[i=1:10,10,0,j=1:10,10,0],i+j),A);
+remove(A);
+
+</div><br/>
+
+
+<a name="rename"></a><h2 class="s">rename</h2>
+<i>rename(array, new_name)</i>
+<p/>Rename an array. The new name is specified without quoting. This
+operator returns nothing, and is only used for its side effect.
+<br/>
+<div class="x">
+store(build(&lt;x:double&gt;[i=1:10,10,0,j=1:10,10,0],i+j),A);
+rename(A, A1);
+
+</div><br/>
+
+
+<a name="repart"></a><h2 class="s">repart</h2>
+<i>repart(array1, array2 | schema)</i>
+<p/>Duplicate the contents of array1, applying the schema
+defined in array2 or schema. The schema must match attribute
+and dimension names and types from array1, but is free to define
+chunk size, chunk overlap, and dimension upper bounds.
+The operator returns the duplicated
+array and, if an output array is specified as array2, also stores
+its output there.
+<br/>
+<div class="x">
+store(build(&lt;x:double&gt;[i=1:10,10,0,j=1:10,10,0],i+j),A);
+repart(A, &lt;x:double&gt;[i=1:10,5,1,j=1:10,2,0]);
+
+</div><br/>
+
+<a name="reshape"></a><h2 class="s">reshape</h2>
+<i>reshape(array1, array2 | schema)</i>
+<p/>Duplicate the contents of array1 into the schema defined by
+the specified output array2 or schema. The schema must match
+the attributes of the source array1, and its dimensions must
+define an array with the same number of cells as array1.
+The reshape operator does not work on arrays with nonzero
+chunk overlap.
+<br/>
+<div class="x">
+store(build(&lt;x:double&gt;[i=1:10,10,0,j=1:10,10,1],i+j),A);
+reshape(A, &lt;x:double&gt;[i=1:100,10,0]);
+reshape(A, &lt;x:double&gt;[i=1:5,5,0,j=1:5,5,0,k=1:4,4,0]);
+
+</div><br/>
+
+
+<a name="reverse"></a><h2 class="s">reverse</h2>
+<i>reverse(array)</i>
+<p/>Create a copy of the input array with cells reversed in each array dimension.
+<br/>
+<div class="x">
+store(build(&lt;x:double&gt;[i=1:10,10,0,j=1:10,10,1],i+j),A);
+reverse(A);
+
+</div><br/>
+
+
+<a name="save"></a><h2 class="s">save</h2>
+<i>save(array, path[, instance[, format]])</i>
+<p/>Save an array to the indicated path, returning the array to the caller.
+The instance indicates on which SciDB instance filesystem to save the
+file (see <tt>list('instances')</tt>&mdash; 0 means the coordinator instance).
+Format is a string that indicates the saved file format. Here are some
+possible options (see the SciDB reference guide for more):
+<br/><br/>
+<table class='tbl'>
+<tr><td>Format string</td><td>Description</td></tr>
+<tr><td>'lcsv+'</td><td>Dimension and attribute values separated by commas</td></tr>
+<tr><td>'dcsv'</td><td>Dimension values in braces separated by commans, then attribute values separated by commas</td></tr>
+<tr><td>'(type1[, type2[, ...]])'</td><td>Attribute values in binary save format (see below).</td></tr>
+</table>
+<br/>
+<div class="x">
+store(build(&lt;x:double&gt;[i=1:3,3,0,j=1:3,3,0],i+j),A);
+save(A, '/tmp/A.csv', 0, 'lcsv+');
+save(A, '/tmp/A.bin', 0, '(double)');
+
+</div><br/>
+Examples of reading the output files produced by the example using
+GNU command-line utilities follow:
+<br/>
+<br/>
+<div class="x">
+cat /tmp/A.csv           # ASCII comma-separated value format
+od -tf8 /tmp/A.bin       # Binary output format
+
+</div>
+
+
+<a name="scan"></a><h2 class="s">scan</h2>
+<i>scan(array)</i>
+<p/>Identity function&mdash;return the array.
+<br/>
+<div class="x">
+store(build(&lt;x:double&gt;[i=1:3,3,0,j=1:3,3,0],i+j),A);
+scan(A);
+
+</div><br/>
+
+
+<a name="show"></a><h2 class="s">show</h2>
+<i>show(array | schema)</i>
+<p/>Create an array containing the schema of the specified stored
+array or schema.
+<br/>
+<div class="x">
+store(build(&lt;x:double&gt;[i=1:3,3,0,j=1:3,3,0],i+j),A);
+show(A);
+
+</div><br/>
+
+
+<a name="slice"></a><h2 class="s">slice</h2>
+<i>slice(array, dimension1, value1[, dimension2, value2[, ...]])</i>
+<p/>
+<br/>Create a new array that subsets the input array
+along specified dimension values. The output array has lower
+dimension than the input array.
+<div class="x">
+store(build(&lt;x:double&gt;[i=1:3,3,0,j=1:3,3,0],i+j),A);
+slice(A, i, 2);
+
+</div><br/>
+
+
+<a name="sort"></a><h2 class="s">sort</h2>
+<i>sort(array, attribute [asc | desc][, attribute [asc | desc][, ...]][, chunk_size])</i>
+<p/>Create an array containing a sorted representation of the input array by attribute values, optionally specifying ascending or
+descending order and output chunk size. The output array is one-dimensional
+with integer dimension "n" (don't use sort on an input array attribute named "n").
+<br/>
+<div class="x">
+store(build(&lt;x:double&gt;[i=1:10,10,0],10*double(random())/2147483647 + 1),A);
+store(apply(A, s, 'x' + string(x)), B);
+sort(B, x, s);
+
+</div><br/>
+
+<a name="stdev"></a><h2 class="s">stdev</h2>
+<i>stdev(array, attribute[, dimension1[, dimension2[, ...]]])</i>
+<p/>Create an array with the standard deviation of the indicated input
+array attribute values along the indicated dimensions. If no dimension
+is specified, compute the standard deviation of all indicated
+attribute values in the array.
+<br/>
+<div class="x">
+store(build(&lt;x:double&gt;[i=1:10,10,0,j=1:10,10,0],10*double(random())/2147483647 + 1),A);
+stdev(A, x);
+stdev(A, x, j);
+
+</div><br/>
+
+
+<a name="store"></a><h2 class="s">store</h2>
+<i>store(result, array)</i>
+<p/>Store the output result of a SciDB operator to the array name
+specified, returning the output array for use by the caller.
+<br/>
+<div class="x">
+sum(store(build(&lt;x:double&gt;[i=1:10,10,0],i), A));
+
+store(build(&lt;x:double&gt;[i=1:10,10,0],i), A);
+sum(A);
+
+</div><br/>
+
+
+<a name="subarray"></a><h2 class="s">subarray</h2>
+<i>subarray(array, low_coord1[, low_coord2[, ...]], high_coord1[, high_coord2[, ...]])</i>
+<p/>Create an array containing a clipped, rectilinear subset of the
+input array. The coordinates specified must, in order, indicate the
+low boundaries in each array dimension, followed by the high boundaries
+in each array dimension.
+Integer dimensions coordinates in the output array are changed to start
+at zero. (Mapped non-integer coordinates are not changed.) The upper
+dimension bounds of the output array vary depending on the input and
+possibly the chunk size. For now, it's best to explicitly check the
+output array dimension bounds.
+<br/>
+<div class="x">
+store(build(&lt;x:double&gt;[i=1:10,10,0,j=1:10,10,0],10*double(random())/2147483647 + 1),A);
+subarray(A, 2, 2, 5, 5);
+
+</div><br/>
+
+<a name="substitute"></a><h2 class="s">substitute</h2>
+<i>substitute(array1, array2[, attribute1[, attribute2[, ...]]])</i>
+<p/>Create an array that substitutes null values in the indicated attributes in array1 with non-null values from the single-attribute array2.
+If no attributes are specified, null values in all attributes will be
+substituted.
+The single substitute value will be taken from the attribute value of array2 at dimension coordinate zero.
+Both array dimension start indices must be zero.
+The indicated output array attributes will be set to non-nullable.
+<br/><br/>
+The example creates an array with two attributes x and y with identical values
+that are null below coordinate i=5, then substitutes 0 for the null values in
+the y attribute.
+<br/>
+<div class="x">
+store
+(
+  apply
+  (
+    build(&lt;x:double null&gt;[i=0:9,10,0],iif(i&lt;5,null,i)),
+    y, x
+  ),
+  A
+);
+substitute(A, build(&lt;u:double&gt;[j=0:0,1,0],0), y);
+
+</div><br/>
+
+<a name="sum"></a><h2 class="s">sum</h2>
+<i>sum(array[, attribute[, dimension1[, dimension2, ...]]])</i>
+<p/>Create an array that returns the sum of all attributes in the array,
+or just the sum of values in a specified attribute,
+optionally grouped along one or more dimensions.
+<br/>
+<div class="x">
+sum(build(&lt;x:double&gt;[i=1:10,5,0,j=1:10,10,0], sin((double(i*j)/100))),x,i);
+
+</div><br/>
+
+<a name="thin"></a><h2 class="s">thin</h2>
+<i>thin(array, start1, step1, start2, step2, ...)</i>
+<p/>Create an array that selects data from an array at fixed intervals along each dimension. A dimension chunk size must be evenly divisible by its step size and must evenly divide the corresponding array dimension upper bound (in the case of an explicitly bounded dimension).
+<br/>
+<div class="x">
+store(build(&lt;x:double&gt;[i=1:10,10,0,j=1:10,10,0], i+j),A);
+thin(A, 2, 5, 1, 2);
+
+</div><br/>
+
+
+<a name="unpack"></a><h2 class="s">unpack</h2>
+<i>unpack(array, dimension_name[, chunk_size])</i>
+<p/>Create a 1-D array version of any array, converting input array dimension values to attributes in the output array. (The output array resembles
+the SciDB "lcsv+" formatted output.)
+<br/>
+<div class="x">
+store(build(&lt;x:double&gt;[i=1:10,10,0,j=1:10,10,0], i+j),A);
+unpack(A, k);
+
+</div><br/>
+
+<a name="var"></a><h2 class="s">var</h2>
+<i>var(array[, attribute[, dimension1[, dimension2, ...]]])</i>
+<p/>Create an array that returns the variance of all attributes in the array,
+or just the variance of values in a specified attribute,
+optionally grouped along one or more dimensions.
+<br/>
+<div class="x">
+var(build(&lt;x:double&gt;[i=1:10,5,0,j=1:10,10,0], sin((double(i*j)/100))),x,i);
+
+</div><br/>
+
+<a name="versions"></a><h2 class="s">versions</h2>
+<i>versions(array)</i>
+<p/>
+Create an array that contains version information for the specified array,
+which must be stored in SciDB. The version information includes a sequential
+ID and date/time of update.
+<br/>
+<div class="x">
+store(build_sparse(<x:double>[i=1:10,5,0], sqrt(i), double(i)/2 = i/2),A);
+versions(A);
+
+insert(build(<x:double>[i=1:10,5,0],i),A);
+versions(A);
+
+</div><br/>
+
+<a name="xgrid"></a><h2 class="s">xgrid</h2>
+<i>xgrid(array, scale1[, scale2[, ...]])</i>
+<p/>
+Create an array that prolongs each dimension of the specified input array
+by a scale factor. Input array cells are replicated to fill the new
+array. The number of supplied scale arguments must match the number of
+dimensions of the array. Each scale argument must be integer-valued 
+(type int32).
+<br/>
+<div class="x">
+store(build_sparse(<x:double>[i=1:4,5,0], i, double(i)/2 = i/2),A);
+xgrid(A, 2);
+
+</div><br/>
+The xgrid operator in some cases can be the inverse of the regrid operator:
+<br/><br/>
+<div class="x">
+store(build_sparse(<x:double>[i=1:4,4,0,j=1:4,4,0], i + j, double(j)/2 = j/2 or double(i)/2 = i/2),A);
+xgrid(A, 2, 2);
+regrid(xgrid(A,2,2), 2, 2, max(x) as x);
+
+</div><br/>
+
+
+
+
+
+
+<!--
+BLANK OPERATOR TEMPLATE FOLLOWS
+
+<a name=""></a><h2 class="s"></h2>
+<i></i>
+<p/>
+<br/>
+<div class="x">
+</div><br/>
+
+-->
+
+</div>
+
+</div>
+</body>
+</html>

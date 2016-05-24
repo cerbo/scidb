@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>SciDB Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <link href="css/bootstrap.css" rel="stylesheet">
+<!--[if gte IE 9]>
+<style>
+.ie_show { display:block }
+.ie_hide { display:none }
+</style>
+<![endif]-->
+ <link href="css/bootstrap-responsive.css" rel="stylesheet">
+ <link href="css/query.css" rel="stylesheet">
+ <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+ <!--[if lt IE 9]>
+    <script src="../assets/js/html5shiv.js"></script>
+ <![endif]-->
+ <link rel="apple-touch-icon-precomposed" href="img/favicon.png">
+ <link rel="shortcut icon" href="img/favicon.ico">
+</head>
+
+<body>
+
+  <div class="navbar navbar-inverse navbar-fixed-top" style="margin-bottom: 0px">
+    <div class="navbar-inner">
+      <div class="container">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </a>
+        <a class="brand" href="index.html">SciDB</a>
+        <div class="nav-collapse collapse">
+          <ul class="nav">
+            <li><a href="index.html">Dashboard</a></li>
+            <li class="active"><a href="query.html">Interactive Query</a></li>
+            <li><a href="help.html">Web API</a></li>
+            <li><a onclick="logout();" href="#">Logout</a>
+          </ul>
+          <div class="pull-right">
+            <ul class="nav">
+            <li><a href="http://paradigm4.com">http://paradigm4.com</a>
+            <ul>
+          </div>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+  </div>
+
+<div id="buttoncontainer" style="margin: 0px 0px 0px 0px; width: 100%; background-color: #ddd;">
+<div class="dropdown" style="background-color: #ddd; float: left; width: 65px;" >
+<button class="btn btn-default" type="button" id="fileMenu" data-toggle="dropdown" aria-expanded="true" style="padding: 8px 15px 10px; margin-left:10px; text-decoration: none; font-weight: bold; color: #069; border-right: 1px solid #ccc;"> File </button>
+  <ul class="dropdown-menu" role="menu" aria-labelledby="fileMenu">
+    <li role="presentation"><a role="menuitem" tabindex="-1" id="uplo" data-toggle="modal" href="#fileModal" onclick="$('#arrayName')[0].value=sillyname(); $('#fileModal').modal();">Upload file...</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="genericFileSwitch='load script'; $('#genericfile').val('');$('input[id=genericfile]').click();">Load script...</a></li>
+    <li role="presentation"><a  tabindex="-1" href="#saveModal" onclick="if($('#fdown')[0].value==''){$('#fdown')[0].value=sillyname()+'.afl';}else{$('#fdown')[0].value=$('#fdown')[0].value.replace('.txt','.afl');}; $('#saveModal').prop('tag','script'); $('#saveModal').modal();">Save script as...</a></li>
+    <li role="presentation"><a  tabindex="-1" href="#saveModal" onclick="if($('#fdown')[0].value==''){$('#fdown')[0].value=sillyname()+'.txt';}else{$('#fdown')[0].value=$('#fdown')[0].value.replace('.afl','.txt');}; $('#saveModal').prop('tag','output'); $('#saveModal').modal();">Save output as...</a></li>
+  </ul>
+
+</div>
+<div class="dropdown" style="background-color: #ddd; float: left;">
+<button class="btn btn-default" type="button" id="editMenu" data-toggle="dropdown" aria-expanded="true" style="padding: 8px 15px 10px; margin-left:10px; text-decoration: none; font-weight: bold; color: #069; border-right: 1px solid #ccc;"> Edit </button>
+  <ul class="dropdown-menu" role="menu" aria-labelledby="editMenu">
+    <li class="dropdown"><a id="edit_format"  href="#" data-toggle="dropdown" class="dropdown-toggle" onclick="pretty();">Format</a></li>
+  </ul>
+
+  <a id="exq" class="bt1" style="margin-right: 0px;" href="#" onclick="if(!$('#exq').hasClass('disabled')) {execute_query()}">Execute and </a>
+  <select id="numlines">
+  <option value="500">return at most 500 lines.</option>
+  <option value="-1">return everything.</option>
+  <option value="0">return nothing.</option>
+  </select>
+  <a id="can" class="bt1" href="#" onclick="if(!$('#can').hasClass('disabled')) cancel();">Cancel</a>
+  <a id="tips" class="bt1" href="#" onclick="alert('Press CTRL + SPACE for autocompletion and AFL help.\n\nAfter selecting an auto-completion, use TAB or SHIFT+TAB to quickly move between argument fields.\n\nPress SHIFT + ENTER to check the syntax of highlighted text.\n\nPress CTRL + ENTER (ALT + ENTER on Mac OS X) to execute the highlighted expression and return its output.\n\nThis interface supports SciDB AFL queries.\n\nPress ALT + = to increase query panel size, ALT + - to decrease it.\n\nPress CTRL + z to undo changes.');">Help</a>
+
+</div>
+</div>
+
+<div id="querycontainer" style="border: 1px solid #aaa; margin: 0px 10px 0px 10px; width: 99%; position: relative; clear: both;">
+<pre id="editor" style="resize: both; overflow: auto;"></pre>
+</div>
+
+<div id="result" style="margin: 0px 10px 0px 10px; width: 99%;">
+<br/>
+<ul>
+<li>Press CTRL + SPACE for auto-completion and AFL help.
+<li>After selecting an auto-completion, use TAB and SHIFT + TAB to quickly move between argument fields.
+<li>Press SHIFT + ENTER to check the syntax of a <span style="background-color: #88bbff">highlighted</span> expression, displaying errors or output schema of a valid AFL expressions.
+<li>Press CTRL + ENTER (ALT + ENTER on Mac OS X) to execute the <span style="background-color: #88bbff">highlighted</span> query expression (or use the button at the top).
+<li> Press ALT + = to increase the query editor panel size.
+<li> Press ALT + - to decrease the query editor panel size.
+<li>Separate multiple queries with semicolons (;).
+<li>Use two dashes (--) to precede comments; everything on the same line after -- will be igonred.
+<li>Use the 'Execute' button to run a query, adjusting desired output limits using the drop-down.
+<li>Use CTRL+Z to undo typing, CTRL+C to copy, CTRL+V to paste, CTRL+A to select all (in the query editor).
+<li>This interface supports SciDB AFL queries.
+</ul>
+</div>
+
+
+<!-- Modal file upload dialog -->
+<div id="fileModal" class="modal hide fade" style="width:600px;">
+  <div class="modal-header">
+    <h3>Upload delimited text data</h3>
+  </div>
+  <div class="modal-body">
+<table style="width:100%;">
+<tr><td style="width:22%;"><div style="margin-bottom: 10px;">Delimiter</div></td><td>
+  <select id="delimiter_select" style="margin-left:2px; margin-bottom: 10px; border: 0px; background-color: #eee; width: 7pc;" onchange="$('#delimiter')[0].value = $('#delimiter_select')[0].value;">
+  <option value=",">Comma</option>
+  <option value="\t">TAB</option>
+  <option value=";">Semicolon</option>
+  </select>
+  <input id="delimiter" type="text", value="," placeholder="delimiter" style="width: 2pc; margin-right: 4px;"/>
+  <i>(or enter a delimiter in the box)</i>
+<tr><td style="width:22%;"><div style="margin-bottom: 10px;">File</div></td><td>
+    <input id="fup" name="a_f" type="file" class="hide ie_show" />
+<div class="input-append ie_hide">
+  <input id="pretty-input" class="input-large" type="text" readonly onclick="$('#fup').val('');$('input[id=fup]').click();">
+  <a class="btn" onclick="$('#ifup').val('');$('input[id=fup]').click();">Browse</a>
+</div>
+<tr><td><div style="margin-bottom: 10px;">Store as name</div></td><td>
+    <input style="width:95%;" id="arrayName" name="a_n" type="text" value="" placeholder="Array name"/>
+    </td></tr>
+</table>
+<label class="checkbox">
+  <input id="header" type="checkbox" value="" checked>
+  The file contains a header line.
+</label>
+<label class="checkbox">
+  <input id="temparray" type="checkbox" value="" disabled="disabled">
+  Store into a temporary array.
+</label>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn btn-primary" data-dismiss="modal">Cancel</a>
+    <a href="#" onclick="prepare_upload_query();" class="btn btn-primary" data-dismiss="modal">Generate query</a>
+  </div>
+</div>
+
+
+<!-- BASIC Modal file download dialog IMPROVE ME -->
+<div id="saveModal" class="modal hide fade" style="width:600px;">
+  <div class="modal-header">
+    <h3>Save file</h3>
+  </div>
+  <div class="modal-body">
+  <table style="width:100%;">
+    <tr><td style="width:22%;"><div style="margin-bottom: 10px;">File name</div></td><td>
+    <input id="fdown" type="text" style='width: 98%;'/>
+  </table>
+<br><i>The file will be saved in your browser's default downloads directory. If a file with the specified
+name already exists, your browser will add a number to the name to avoid overwriting it.
+</i>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn btn-primary" data-dismiss="modal">Cancel</a>
+    <a href="#" class="btn btn-primary" data-dismiss="modal" onclick="save_script();">Save</a>
+  </div>
+</div>
+
+
+<!--used for generic file i/o -->
+<div style="width: 0px; height: 0px; overflow: hidden;">
+<input id="genericfile" type="file"/>
+</div>
+
+<!-- clean up these script dependencies...minify...-->
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/bootstrap-modal.js"></script>
+<script src="js/cook.js"></script>
+<script src="js/scidb_query.js"></script>
+<script src="js/spin.min.js"></script>
+<script src="js/spin.js"></script>
+
+<!-- load ace -->
+<script src="js/ace.js"></script>
+<!-- load ace language tools -->
+<script src="js/ext-language_tools.js"></script>
+<script>
+    // trigger extension
+    ace.require("ace/ext/language_tools");
+    var editor = ace.edit("editor");
+    editor.session.setMode("ace/mode/scidb");
+    editor.setTheme("ace/theme/textmate");
+    // enable autocompletion and snippets
+    editor.setOptions({
+        enableBasicAutocompletion: true,
+        enableSnippets: true,
+        enableLiveAutocompletion: false,
+        highlightActiveLine: false,
+        fontSize: 16,
+        showGutter: false,
+        showPrintMargin: false
+    });
+</script>
+
+</body>
+</html>

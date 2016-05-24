@@ -1,0 +1,56 @@
+div.doc
+{
+  width: 650px;
+  height: 300px;
+  word-wrap: normal;
+  white-space: pre-wrap;
+  overflow-y: scroll;
+}
+body {
+  padding-top: 50px;
+  padding-bottom: 0px;
+  background-color: #ddd;
+}
+pre {
+  font-size: 16px;
+  overflow: auto;
+  word-wrap: normal;
+  white-space: pre;
+  border: 0px;
+  background-color: #ddd;
+  color: black;
+}
+#editor {
+  margin: 0;
+  height: 20pc;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding-bottom: 15px;
+}
+a.disabled { color:gray; }
+select {
+ background-color: #ddd;
+ color: #555;
+ border: 0px solid #aaaaaa;
+ font-size: inherit;
+ overflow: hidden;
+ margin-left: -18px;
+ padding-top: 5px;
+ padding-bottom: 8px;
+ text-overflow: ellipsis;
+ border-right: 1px solid #ccc;
+ white-space: nowrap;
+}
+a.bt1 {
+   padding: 8px 15px;
+   text-decoration: none;
+   font-weight: bold;
+   color: #069;
+   border-right: 1px solid #ccc;
+   background-color: #ddd;
+}
+a.bt1:hover{
+   cursor: pointer; cursor: hand;
+   background-color: #c0cdd1;
+}

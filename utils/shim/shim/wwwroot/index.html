@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>SciDB Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <link href="css/bootstrap.css" rel="stylesheet">
+ <style type="text/css">
+   body {
+     padding-top: 60px;
+     padding-bottom: 40px;
+   }
+   .allgreen
+   {
+     color: #007700;
+   }
+   .fill
+   {
+      height: 100%;
+   }
+   .instances
+   {
+     -moz-column-count:3; /* Firefox */
+     -webkit-column-count:3; /* Safari and Chrome */
+     column-count:3;
+     -moz-column-gap:40px; /* Firefox */
+     -webkit-column-gap:40px; /* Safari and Chrome */
+     column-gap:40px;
+     color: #007700;
+     font-family: "Lucida Console", Courier, monospace;
+     font-weight: 900;
+   }
+ </style>
+ <link href="css/bootstrap-responsive.css" rel="stylesheet">
+ <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+ <!--[if lt IE 9]>
+    <script src="../assets/js/html5shiv.js"></script>
+ <![endif]-->
+ <link rel="apple-touch-icon-precomposed" href="img/favicon.png">
+ <link rel="shortcut icon" href="img/favicon.ico">
+</head>
+
+<body>
+
+  <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </a>
+        <a class="brand" href="index.html">SciDB</a>
+        <div class="nav-collapse collapse">
+          <ul class="nav">
+            <li class="active"><a href="index.html">Dashboard</a></li>
+            <li><a href="query.html">Interactive Query</a></li>
+            <li><a href="help.html">Help</a></li>
+            <li><a onclick="logout();" href="#">Logout</a>
+          </ul>
+          <div class="nav-collapse collapse pull-right">
+          <ul class="nav">
+            <li><a href="http://paradigm4.com">http://paradigm4.com</a>
+          </ul>
+          </div>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+
+  <div id="scidb_dash"> </div>
+<br/><br/><hr/>
+<div>
+<!--
+  <div class="btn-group">
+    <a id="stopbtn" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" href="#">Stop SciDB  <span class="caret"></span></a>
+    <ul id="stopmenu" class="dropdown-menu"></ul>
+  </div>
+  <div class="btn-group">
+    <a id="startbtn" class="btn btn-success dropdown-toggle" data-toggle="dropdown" href="#">Start SciDB  <span class="caret"></span></a>
+    <ul id="startmenu" class="dropdown-menu"></ul>
+  </div>
+  <a id="beditconfig" class="btn" onclick="doedit();" href="#">Edit SciDB config &raquo;</a>
+-->
+  <a id="bgetlog" class="btn btn-primary" onclick="getlog();" href="#">View Log</a>
+  <div class="pull-right">
+    <a id="savebtn" class="btn" href="#">Save SciDB config</a>
+    <a id="closebtn" class="btn btn-danger" onclick="doclose();" href="#">Close</a>
+  </div>
+</div>
+<br/>
+<div class="row" id="textcontainer">
+<span class="span12">
+<textarea id="configini" rows="20" style="width:100%;"></textarea>
+</span>
+</div>
+
+
+    <footer>
+      <br/><br/><p>&copy; Paradigm4 2013</p>
+    </footer>
+
+  </div> <!-- /container -->
+
+
+
+<!-- Modal login dialog -->
+<div id="loginModal" class="modal hide fade">
+  <div class="modal-header">
+    <h3>Login</h3>
+  </div>
+  <div class="modal-body">
+    <table style="width:100%;">
+    </td></tr><tr><td style="width:22%;">Username</td><td>
+    <input style="width:95%;" id="username" name="a_s" type="text" value="" placeholder="username"/>
+    </td></tr>
+    <tr><td>Password</td><td>
+    <input style="width:95%;" id="password" name="a_n" type="password" value="" placeholder="password"/>
+    </td></tr>
+    </table>
+  </div>
+  <div class="modal-footer">
+    <a href="#" onclick="do_login('',0);" class="btn btn-primary" data-dismiss="modal">OK</a>
+  </div>
+</div>
+
+
+
+  <script src="js/jquery.min.js"></script>
+  <script src="js/bootstrap.js"></script>
+  <script src="js/cook.js"></script>
+  <script src="js/index.js"></script>
+  <script src="js/spin.min.js"></script>
+  <script src="js/spin.js"></script>
+
+</body>
+</html>

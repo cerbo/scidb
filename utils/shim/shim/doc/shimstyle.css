@@ -1,0 +1,13 @@
+/* Whole document: */
+body{
+  font-size: 1.7em;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-size: 1.7em;
+}
+
+table th, table td {
+  text-align: left;
+  vertical-align: top;
+  padding: 6px 6px 6px 11px;
+}
