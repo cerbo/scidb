@@ -60,7 +60,7 @@ case $1 in
             ;;
         start)
             echo "Starting shim"
-            "'${SHIM}' $PORTS $SCIDBPORT $TMPD $MAX_SESSIONS $TIMEOUT $SAVE_INSTANCE_ID $AIO"
+            ${SHIM}' $PORTS $SCIDBPORT $TMPD $MAX_SESSIONS $TIMEOUT $SAVE_INSTANCE_ID $AIO
             ;;
         restart)
             $0 stop
