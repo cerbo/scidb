@@ -24,7 +24,7 @@ if test -z "${SCIDB_DIR}"; then
   fi
 fi
 
-export LD_LIBRARY_PATH="${SCIDB_DIR}/lib:${SCIDB_DIR}/3rdparty/boost/lib"
+export LD_LIBRARY_PATH="${SCIDB_DIR}/lib:${SCIDB}/3rdparty/boost/lib"
 export SHIM="${SCIDB_DIR}/bin/shim"
 # Check for configuration
 PORTS=
@@ -56,11 +56,11 @@ fi
 case $1 in
         test)
             echo "Command line"
-            echo "su $USER -c \"'${SHIM}' $PORTS $SCIDBPORT $TMPD $MAX_SESSIONS $TIMEOUT $SAVE_INSTANCE_ID $AIO\""
+            echo "'${SHIM}' $PORTS $SCIDBPORT $TMPD $MAX_SESSIONS $TIMEOUT $SAVE_INSTANCE_ID $AIO"
             ;;
         start)
             echo "Starting shim"
-            su $USER -c "'${SHIM}' $PORTS $SCIDBPORT $TMPD $MAX_SESSIONS $TIMEOUT $SAVE_INSTANCE_ID $AIO"
+            "'${SHIM}' $PORTS $SCIDBPORT $TMPD $MAX_SESSIONS $TIMEOUT $SAVE_INSTANCE_ID $AIO"
             ;;
         restart)
             $0 stop
