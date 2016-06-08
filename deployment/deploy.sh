@@ -658,9 +658,13 @@ fi;
 if [ "${redundancy}" != "default" ]; then
     echo "redundancy=${redundancy}"
 fi;
-echo "install_root=/opt/scidb/${SCIDB_VER}"
-echo "pluginsdir=/opt/scidb/${SCIDB_VER}/lib/scidb/plugins"
-echo "logconf=/opt/scidb/${SCIDB_VER}/share/scidb/log4cxx.properties"
+# VP
+#echo "install_root=/opt/scidb/${SCIDB_VER}"
+echo "install_root=/usr/local/scidb"
+#echo "pluginsdir=/opt/scidb/${SCIDB_VER}/lib/scidb/plugins"
+echo "pluginsdir=/usr/local/scidb/lib/scidb/plugins"
+#echo "logconf=/opt/scidb/${SCIDB_VER}/share/scidb/log4cxx.properties"
+echo "logconf=/usr/local/scidb/share/scidb/log4cxx.properties"
 echo "base-path=${base_path}"
 echo "base-port=1239"
 echo "interface=eth0"
@@ -682,7 +686,9 @@ function scidb_prepare_node ()
     local dbuser=${6}
     local dbpass=${7}
     remote "${username}" "${password}" ${hostname} "./scidb_prepare.sh ${SCIDB_VER}"
-    remote root "" ${hostname} "cat config.ini > /opt/scidb/${SCIDB_VER}/etc/config.ini && chown ${username} /opt/scidb/${SCIDB_VER}/etc/config.ini" `readlink -f ./config.ini`
+    # VP
+    #remote root "" ${hostname} "cat config.ini > /opt/scidb/${SCIDB_VER}/etc/config.ini && chown ${username} /opt/scidb/${SCIDB_VER}/etc/config.ini" `readlink -f ./config.ini`
+    remote root "" ${hostname} "cat config.ini > /usr/local/scidb/etc/config.ini && chown ${username} /usr/local/scidb/etc/config.ini" `readlink -f ./config.ini`
     # Sadly these crude remote execution commands don't let the remote command read stdin,
     # so we have to send the password as a command line argument.  Mumble.
     remote "${username}" "${password}" ${hostname} \
@@ -749,7 +755,9 @@ function scidb_reconfig ()
     # deposit new config.ini to all nodes
     local hostname
     for hostname in ${coordinator} $@; do
-        remote root "" ${hostname} "cat config.ini > /opt/scidb/${SCIDB_VER}/etc/config.ini && chown ${username} /opt/scidb/${SCIDB_VER}/etc/config.ini" `readlink -f ./config.ini`
+        # VP
+        #remote root "" ${hostname} "cat config.ini > /opt/scidb/${SCIDB_VER}/etc/config.ini && chown ${username} /opt/scidb/${SCIDB_VER}/etc/config.ini" `readlink -f ./config.ini`
+        remote root "" ${hostname} "cat config.ini > /usr/local/scidb/etc/config.ini && chown ${username} /usr/local/scidb/etc/config.ini" `readlink -f ./config.ini`
     done;
     rm -f ./config.ini
 }
