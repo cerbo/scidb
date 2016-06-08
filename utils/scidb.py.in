@@ -907,21 +907,19 @@ def initAll(force=False):
    if not gCtx._srvList:
       raise AppError("No servers specified")
 
-   #SS commented out for docker startup
-   #if (check_scidb_running() > 0):
-   #   raise AppError("SciDB is still running.")
-   #SS commented out for docker startup
-   #try:
-   #   checkMaxPostgresConns(getInstanceCount(gCtx._srvList))
-   #except Exception as pgException:
-   #   if not force:
-   #      raise AppError("Postgres exception: %s" % pgException)
-   #   printWarn(pgException)
+   if (check_scidb_running() > 0):
+      raise AppError("SciDB is still running.")
+
+   try:
+      checkMaxPostgresConns(getInstanceCount(gCtx._srvList))
+   except Exception as pgException:
+      if not force:
+         raise AppError("Postgres exception: %s" % pgException)
+      printWarn(pgException)
 
    checkRedundancy(getInstanceCount(gCtx._srvList))
 
-   #SS commented out for docker startup
-   #initSomeInParallel(gCtx._srvList[0:1], force=force, initialize=True)
+   initSomeInParallel(gCtx._srvList[0:1], force=force, initialize=True)
 
    if len(gCtx._srvList)>1:
       initSomeInParallel(gCtx._srvList[1:], force=True, initialize=False)
