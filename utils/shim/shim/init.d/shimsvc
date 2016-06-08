@@ -56,11 +56,11 @@ fi
 case $1 in
         test)
             echo "Command line"
-            echo "'${SHIM}' $PORTS $SCIDBPORT $TMPD $MAX_SESSIONS $TIMEOUT $SAVE_INSTANCE_ID $AIO"
+            echo "${SHIM} $PORTS $SCIDBPORT $TMPD $MAX_SESSIONS $TIMEOUT $SAVE_INSTANCE_ID $AIO"
             ;;
         start)
             echo "Starting shim"
-            ${SHIM}' $PORTS $SCIDBPORT $TMPD $MAX_SESSIONS $TIMEOUT $SAVE_INSTANCE_ID $AIO
+            ${SHIM} $PORTS $SCIDBPORT $TMPD $MAX_SESSIONS $TIMEOUT $SAVE_INSTANCE_ID $AIO
             ;;
         restart)
             $0 stop
